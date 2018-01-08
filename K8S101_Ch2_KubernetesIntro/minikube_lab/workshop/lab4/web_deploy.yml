@@ -1,0 +1,42 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+
+metadata:
+  name: web
+
+spec:
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 3
+
+  replicas: 5
+
+  template:
+
+    metadata:
+      name: web
+      labels:
+        name: web
+        app: demo
+
+    spec:
+
+      containers:
+      - name: web
+        image: "acinwinstack/redis_count:deploy_v2"
+        env:
+          - name: "REDIS_HOST"
+            value: "redis_pod_ip"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: pv-1
+          mountPath: /home/redis
+
+      volumes:
+      - name: pv-1
+        persistentVolumeClaim: 
+          claimName: pvc-1

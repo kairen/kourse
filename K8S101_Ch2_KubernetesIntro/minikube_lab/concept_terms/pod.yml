@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ct-nginx
+  labels:
+    app: concept-terms
+spec:
+  containers:
+  - name: web
+    image: nginx
+    ports:
+    - containerPort: 80

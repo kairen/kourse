@@ -1,0 +1,19 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ct-nginx-deploy
+  labels:
+    app: concept-terms
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: concept-terms
+    spec:
+      containers:
+      - name: web
+        image: nginx
+        ports:
+        - containerPort: 8080
+

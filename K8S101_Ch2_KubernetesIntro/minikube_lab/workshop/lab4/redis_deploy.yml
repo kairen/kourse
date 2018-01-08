@@ -1,0 +1,22 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+
+metadata:
+  name: redis
+
+spec:
+
+  template:
+
+    metadata:
+      name: redis
+      labels:
+        name: redis
+        app: demo
+
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        ports:
+        - containerPort: 6379
