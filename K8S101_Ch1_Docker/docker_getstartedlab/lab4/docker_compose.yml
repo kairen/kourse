@@ -31,7 +31,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - /Desktop/K8S101_Ch1_Docker/docker_getstartedlab/lab4/data:/data
+      - ~/data:/data
     deploy:
       replicas: 2
       restart_policy:

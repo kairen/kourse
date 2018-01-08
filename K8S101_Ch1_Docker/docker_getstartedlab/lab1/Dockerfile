@@ -5,7 +5,7 @@ FROM python
 WORKDIR /home/app/
 COPY ./* /home/app/
 
-# Install neede packages
+# Install needed packages
 RUN pip install Flask
 RUN pip install Redis
 
