@@ -1,5 +1,3 @@
-FROM ubuntu
-
 # Use an official Python runtime as a parent image
 FROM python
 

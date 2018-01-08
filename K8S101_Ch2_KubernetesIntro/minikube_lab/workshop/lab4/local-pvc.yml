@@ -10,7 +10,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: 172.16.35.12
+    server: "nfs_server_ip" #replace with acutal server ip
     path: /tmp/data/pv-1
 
 ---

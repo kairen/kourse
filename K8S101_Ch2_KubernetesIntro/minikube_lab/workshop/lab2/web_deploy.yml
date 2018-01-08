@@ -2,7 +2,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 
 metadata:
-  name: web
+  name: web-deploy
 
 spec:
 
@@ -26,9 +26,10 @@ spec:
 
       containers:
       - name: web
-        image: "acinwinstack/redis_count:deploy_v2"
+        image: k8s101web
+        imagePullPolicy: IfNotPresent
         env:
-          - name: "REDIS_HOST"
-            value: "redis_pod_ip"
+          - name: REDIS_HOST
+            value: "redis_pod_ip" #replace with acutal redis ip
         ports:
         - containerPort: 80

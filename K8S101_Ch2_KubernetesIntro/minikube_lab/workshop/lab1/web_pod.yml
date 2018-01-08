@@ -10,9 +10,10 @@ metadata:
 spec:
   containers:
   - name: web
-    image: "web:po"
+    image: "k8s101web"
+    imagePullPolicy: IfNotPresent
     env:
     - name: "REDIS_HOST"
-      value: "172.17.0.8"
+      value: "redis_pod_ip" #replace with acutal redis ip
     ports:
     - containerPort: 80
