@@ -1,2 +1,2 @@
 sudo mv ./* /root/
-su -
+sudo rm /root/init.sh
