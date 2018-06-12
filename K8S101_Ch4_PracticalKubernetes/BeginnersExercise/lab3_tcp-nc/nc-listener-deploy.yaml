@@ -1,0 +1,32 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: nc-deploy
+  labels:
+    app: nc-listener
+spec:
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: nc-listener
+    spec:
+      nodeName: master1
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: nc-listener-container
+        image: acinwinstack/tcp-nc
+        imagePullPolicy: Always
+        command:
+        - "/bin/bash"
+        - "-c"
+        - "nc -vvvlk -p 8080 > /temp/${HOSTNAME}.tcpdump.nc"
+        volumeMounts:
+        - name: tcpnc
+          mountPath: /temp/
+      volumes:
+      - name: tcpnc
+        hostPath:
+          path: /root/nc-log/

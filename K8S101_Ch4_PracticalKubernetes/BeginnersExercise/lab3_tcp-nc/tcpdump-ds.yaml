@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: tcpdump-ds
+  labels:
+    app: tcpdump
+spec:
+  selector:
+    matchLabels:
+      app: tcpdump
+  template:
+    metadata:
+      labels:
+        app: tcpdump
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      hostNetwork: true
+      containers:
+      - name: tcpdump-container
+        image: acinwinstack/tcp-nc
+        imagePullPolicy: Always
+        command: 
+        - "/bin/bash"
+        - "-c"
+        - "tcpdump -s 0 -#U -w - | nc <nc-svc-ip> 8080"
+

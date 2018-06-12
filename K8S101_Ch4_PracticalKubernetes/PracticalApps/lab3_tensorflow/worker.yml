@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tf-worker
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tf-worker
+        role: worker
+    spec:
+      containers:
+      - name: tf-worker
+        image: tensorflow/tensorflow:1.0.1
+        ports:
+        - containerPort: 2222
+        command: ["/bin/sh", "-c"]
+        args: ["
+            curl https://gist.githubusercontent.com/kairen/0d983f72665227ccebaaf44fc83e9210/raw/f532f312fb5afa6c5f24d475b12e2faaf373d556/basic_server.py -o /opt/basic_server.py;
+            python /opt/basic_server.py;"]
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tf-worker
+spec:
+  selector:
+    app: tf-worker
+  type: LoadBalancer
+  externalIPs:
+  - 172.16.35.9
+  ports:
+  - port: 2222
+    targetPort: 2222

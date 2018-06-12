@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/scrape: 'true'
+  labels:
+    name: prometheus
+  name: prometheus
+spec:
+  selector:
+    app: prometheus-server
+  type: NodePort
+  ports:
+  - name: prometheus
+    protocol: TCP
+    port: 9090
+    nodePort: 30008
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prometheus-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: prometheus-server
+    spec:
+      serviceAccountName: prometheus
+      containers:
+        - name: prometheus
+          image: prom/prometheus:v1.8.2
+          args:
+            - "-config.file=/etc/prometheus/prometheus.yml"
+            - "-storage.local.path=/prometheus/"
+            - "-storage.local.retention=8760h"
+            #- "-storage.local.memory-chunks=500000"
+            #- "-query.staleness-delta=30s"
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: prometheus-config-volume
+              mountPath: /etc/prometheus/
+            - name: prometheus-storage-volume
+              mountPath: /prometheus/
+      volumes:
+        - name: prometheus-config-volume
+          configMap:
+            defaultMode: 420
+            name: prometheus-server-conf  
+        - name: prometheus-storage-volume
+          emptyDir: {}
+          #nfs:
+            #server: 10.241.1.11
+            #path: "/nfs/prometheus"
+      #nodeSelector: 
+        #release: production
+        #gputype: v100

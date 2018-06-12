@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reduser-deploy
+  labels:
+    app: reduser
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: reduser
+  template:
+    metadata:
+      labels:
+        app: reduser
+    spec:
+      containers:
+      - name: reduser
+        image: acinwinstack/reduser:env_redis
+        env:
+        - name: REDIS_POD_IP
+          value: "REDIS_POD_IP"
+        ports:
+        - containerPort: 3000

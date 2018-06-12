@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: reduser-svc
+  labels:
+    app: reduser
+spec:
+  ports:
+    - port: 3000
+      nodePort: 33300
+  selector:
+    app: reduser
+  type: NodePort
