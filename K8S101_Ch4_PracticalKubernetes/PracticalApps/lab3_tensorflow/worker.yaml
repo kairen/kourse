@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tf-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tf-worker
+  template:
+    metadata:
+      labels:
+        app: tf-worker
+        role: worker
+    spec:
+      containers:
+      - name: tf-worker
+        image: tensorflow/tensorflow
+        ports:
+        - containerPort: 2222
+        command: ["/bin/sh", "-c"]
+        args: ["
+            echo '# coding=utf-8\nimport tensorflow as tf\ncluster = tf.train.ClusterSpec({\"worker\": [\"localhost:2222\"]})\nserver = tf.train.Server(cluster,job_name=\"worker\",task_index=0)\nserver.join()' > /opt/basic_server.py; ##執行tf_server腳本(worker)
+            python /opt/basic_server.py;"]
+

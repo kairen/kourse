@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tf-worker-svc
+spec:
+  selector:
+    app: tf-worker
+  type: NodePort
+  ports:
+  - port: 2222
+    targetPort: 2222
+    nodePort: 31235 
+

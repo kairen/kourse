@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tf-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tf-worker
+  template:
+    metadata:
+      labels:
+        app: tf-worker
+        role: worker
+    spec:
+      nodeName: k8s-4
+      containers:
+      - name: tf-worker
+        image: tensorflow/tensorflow:latest-gpu
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+        ports:
+        - containerPort: 2222
+        command: ["/bin/sh", "-c"]
+        args: ["
+            echo '# coding=utf-8\nimport tensorflow as tf\ncluster = tf.train.ClusterSpec({\"worker\": [\"localhost:2222\"]})\nserver = tf.train.Server(cluster,job_name=\"worker\",task_index=0)\nserver.join()' > /opt/basic_server.py;
+            python /opt/basic_server.py;
+            export CUDA_VISIBLE_DEVICES=0;"]
+        volumeMounts:
+        - name: nvidia-driver-396-26
+          mountPath: /usr/local/nvidia
+          readOnly: true
+        - name: libcuda-so
+          mountPath: /usr/lib/x86_64-linux-gnu/libcuda.so
+        - name: libcuda-so-1
+          mountPath: /usr/lib/x86_64-linux-gnu/libcuda.so.1
+        - name: libcuda-so-396-26
+          mountPath: /usr/lib/x86_64-linux-gnu/libcuda.so.396.26
+      volumes: 
+      - name: nvidia-driver-396-26
+        hostPath:
+          path: /var/lib/nvidia-docker/volumes/nvidia_driver/396.26
+      - name: libcuda-so
+        hostPath:
+          path: /usr/lib/x86_64-linux-gnu/libcuda.so
+      - name: libcuda-so-1
+        hostPath:
+          path: /usr/lib/x86_64-linux-gnu/libcuda.so.1
+      - name: libcuda-so-396-26
+        hostPath:
+          path: /usr/lib/x86_64-linux-gnu/libcuda.so.396.26
+

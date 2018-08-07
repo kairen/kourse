@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tf-client
+  labels:
+    app: tf-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tf-client
+  template:
+    metadata:
+      labels:
+        app: tf-client
+    spec:
+      nodeName: k8s-1 
+      containers:
+      - name: tf-client
+        image: tensorflow/tensorflow
+        ports:
+        - containerPort: 8888  ##Jupyter預設埠號為8888
+        env:
+        - name: TOKEN
+          value: "p@ssw0rd"
+        command: ["/bin/sh", "-c"]
+        args: [" rm -r /notebooks/*;
+                 /run_jupyter.sh --NotebookApp.token=${TOKEN} 
+                                 --allow-root;"]
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp/train
+      volumes:
+        - name: tmp
+          hostPath:
+            path: /root/tf-demo/data 
+
