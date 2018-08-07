@@ -2,7 +2,7 @@
 import tensorflow as tf
 
 # 目標 Session
-server_target = "grpc://140.130.3.6:31235" ##worker service
+server_target = "grpc://172.16.35.9" ##worker service
 logs_path = '/tmp/train'
 
 # 指定 worker task 0 使用 CPU 運算
