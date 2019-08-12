@@ -3,3 +3,6 @@ vagrant/
 .vagrant/
 ansible.cfg
 hosts.ini
+
+harbor/harbor/common
+harbor/harbor/docker-compose.yml

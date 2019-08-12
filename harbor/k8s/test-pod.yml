@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test
+spec:
+  imagePullSecrets:
+  - name: regcred
+  containers:
+  - name: alpine
+    image: 192.16.35.99/library/alpine:3.7
+    command: ["/bin/sh", "-c"]
+    args:
+    - "while :; do sleep 1; done"
+  
+
