@@ -1,0 +1,33 @@
+apiVersion: kubeflow.org/v1beta1
+kind: PyTorchJob
+metadata:
+  name: pytorch-tcp-dist-mnist
+spec:
+  cleanPodPolicy: None
+  pytorchReplicaSpecs:
+    Master:
+      replicas: 1
+      restartPolicy: OnFailure
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+          - image: inwinstack/pytorch-dist-mnist_test:1.0
+            name: pytorch
+            ports:
+            - containerPort: 23456
+              name: pytorchjob-port
+    Worker:
+      replicas: 3
+      restartPolicy: OnFailure
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+          - image: inwinstack/pytorch-dist-mnist_test:1.0
+            name: pytorch
+            ports:
+            - containerPort: 23456
+              name: pytorchjob-port
