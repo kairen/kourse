@@ -1,3 +1,5 @@
 .DS_Store
 vagrant/
 .vagrant/
+ansible.cfg
+hosts.ini
