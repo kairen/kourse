@@ -84,3 +84,16 @@ First, copy `ca.key` to `/etc/docker/certs.d/192.16.35.99` on nodes:
 $ mkdir -p /etc/docker/certs.d/192.16.35.99
 $ cp /vagrant/harbor/ca.crt /etc/docker/certs.d/192.16.35.99/
 ```
+
+## Content trust
+
+```sh
+$ mkdir -p $HOME/.docker/tls/192.16.35.99:4443/
+$ cp /vagrant/config/certs/ca.crt $HOME/.docker/tls/192.16.35.99:4443/
+# $ cp /vagrant/harbor/ca.crt $HOME/.docker/tls/192.16.35.99:4443/
+
+$ export DOCKER_CONTENT_TRUST=1
+$ export DOCKER_CONTENT_TRUST_SERVER=https://192.16.35.99:4443
+$ docker tag alpine:3.7 192.16.35.99/trust/alpine:3.7
+$ docker push 192.16.35.99/trust/alpine:3.7
+```
