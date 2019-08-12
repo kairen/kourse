@@ -6,7 +6,7 @@ metadata:
 spec:
   type: LoadBalancer
   externalIPs:
-  - 172.22.132.10
+  - 192.16.35.12
   ports:
   - name: http
     port: 3000
