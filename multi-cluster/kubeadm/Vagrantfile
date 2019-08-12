@@ -21,12 +21,12 @@ Vagrant.configure("2") do |config|
       n.vm.hostname = "k8s-#{name}#{id}"
       ip_addr = "192.16.35.#{private_count}"
       n.vm.network :private_network, ip: "#{ip_addr}",  auto_config: true
-
       n.vm.provider :virtualbox do |vb, override|
         vb.name = "#{n.vm.hostname}"
         set_vbox(vb, override)
       end
       private_count += 1
+      n.vm.provision "shell", inline: "sudo swapoff -a && sudo sysctl -w vm.swappiness=0"
     end
   end
 end
