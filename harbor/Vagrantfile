@@ -1,0 +1,19 @@
+Vagrant.require_version ">= 1.7.0"
+
+$bridge_eth = (ENV['BRIDGE_ETH'] || "enp8s0").to_sym
+
+Vagrant.configure("2") do |config|
+  config.vm.provider "virtualbox"
+  config.vm.box = "k2r2bai/kubeadm-ubuntu18"
+  config.vm.define "k8s-harbor" do |n|
+      n.vm.hostname = "k8s-harbor"
+      n.vm.network :private_network, ip: "192.16.35.99",  auto_config: true
+      n.vm.network "public_network", bridge: $bridge_eth
+      n.vm.provider :virtualbox do |vb|
+        vb.name = "#{n.vm.hostname}"
+        vb.gui = false
+        vb.memory = 2048
+        vb.cpus = 1
+      end
+    end
+end
