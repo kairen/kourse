@@ -9,16 +9,6 @@ $ chmod +x /usr/local/bin/docker-compose
 
 ## Harbor
 
-### Getting Certificate Authority
-
-Copy keys and certs to `/data/cert/`:
-
-```sh
-$ mkdir -p /data/cert/
-$ cp -rp /vagrant/config/certs/* /data/cert/
-$ chmod 777 -R /data/cert/
-```
-
 ### Download Harbor
 
 ```sh
@@ -32,6 +22,16 @@ Load Harbor images:
 
 ```sh
 $ docker load < harbor.v1.8.2.tar.gz
+```
+
+### Getting Certificate Authority
+
+Copy keys and certs to `/data/cert/`:
+
+```sh
+$ mkdir -p /data/cert/
+$ cp -rp /vagrant/config/certs/* /data/cert/
+$ chmod 777 -R /data/cert/
 ```
 
 ### Deploy Harbor
