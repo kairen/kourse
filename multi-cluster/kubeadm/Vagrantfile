@@ -27,6 +27,19 @@ Vagrant.configure("2") do |config|
       end
       private_count += 1
       n.vm.provision "shell", inline: "sudo swapoff -a && sudo sysctl -w vm.swappiness=0"
+      n.vm.provision "shell", inline: <<-SHELL
+        echo "127.0.0.1       localhost
+
+192.16.35.10    k8s-n1
+192.16.35.11    k8s-n2
+192.16.35.12    k8s-m1
+192.16.35.99    k8s-harbor
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters" | sudo tee /etc/hosts
+      SHELL
     end
   end
 end

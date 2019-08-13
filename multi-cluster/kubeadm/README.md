@@ -41,6 +41,14 @@ $ sudo kubeadm join 192.16.35.12:6443 --token rlag12.6sd1dhhery5r6fk2 \
     --discovery-token-ca-cert-hash sha256:ea1f9e8a715c5fcaf1379073e4f9ed5ea34339398b1fab3bcc2bfe74cc07c6be
 ```
 
+## Create a NGINX deployment and PDB
+
+Run the following command on master:
+
+```sh
+$ kubectl apply -f /vagrant/pdb/
+```
+
 ## Upgrade to v1.15.x
 
 ### Upgrading control plane nodes
@@ -83,16 +91,16 @@ $ sudo systemctl restart kubelet
 
 ### Upgrade worker nodes
 
-Run the following command on nodes(`k8s-n1, k8s-n2`):
-```sh
-$ sudo apt-get update && sudo apt-get install -y kubeadm=1.15.2-00 && \
- sudo apt-mark hold kubeadm
-```
-
 Run the following command on master:
 
 ```sh
 $ kubectl drain $NODE --ignore-daemonsets
+```
+
+Run the following command on nodes(`k8s-n1, k8s-n2`):
+```sh
+$ sudo apt-get update && sudo apt-get install -y kubeadm=1.15.2-00 && \
+ sudo apt-mark hold kubeadm
 ```
 
 Call the following command to upgrade the kubelet configuration on nodes:
@@ -131,7 +139,13 @@ Server Version: version.Info{Major:"1", Minor:"15", GitVersion:"v1.15.2", GitCom
 
 $ kubectl get no
 NAME     STATUS   ROLES    AGE   VERSION
-k8s-m1   Ready    master   59m   v1.15.2
-k8s-n1   Ready    <none>   57m   v1.15.2
-k8s-n2   Ready    <none>   57m   v1.15.2
+k8s-m1   Ready    master   15m   v1.15.2
+k8s-n1   Ready    <none>   13m   v1.15.2
+k8s-n2   Ready    <none>   12m   v1.15.2
+
+$ kubectl get cs
+NAME                 STATUS    MESSAGE             ERROR
+controller-manager   Healthy   ok
+scheduler            Healthy   ok
+etcd-0               Healthy   {"health":"true"}
 ```
