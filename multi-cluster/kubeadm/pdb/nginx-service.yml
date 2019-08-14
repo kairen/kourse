@@ -6,7 +6,7 @@ metadata:
   name: nginx
 spec: 
   type: LoadBalancer
-   externalIPs:
+  externalIPs:
   - 192.16.35.12
   ports:
   - name: http
