@@ -32,10 +32,6 @@ spec:
             value: http://elasticsearch-logging:9200
           - name: SERVER_NAME
             value: kibana-logging
-          - name: SERVER_BASEPATH
-            value: /api/v1/namespaces/kube-system/services/kibana-logging/proxy
-          - name: SERVER_REWRITEBASEPATH
-            value: "false"
         ports:
         - containerPort: 5601
           name: ui
