@@ -9,6 +9,9 @@ metadata:
     addonmanager.kubernetes.io/mode: Reconcile
     kubernetes.io/name: "Kibana"
 spec:
+  type: LoadBalancer
+  externalIPs:
+  - 192.16.35.12
   ports:
   - port: 5601
     protocol: TCP
