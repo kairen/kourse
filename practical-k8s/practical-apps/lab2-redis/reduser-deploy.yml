@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: reduser
-        image: acinwinstack/reduser:env_redis
+        image: kourse/reduser-env_redis:v0.1.0
         env:
         - name: REDIS_POD_IP
           value: "REDIS_POD_IP"

@@ -1,7 +1,6 @@
 version: "3"
 services:
   web:
-    # replace acinwinstack/getstartedlab with your name and image details
     image: docker-lab
     deploy:
       replicas: 5

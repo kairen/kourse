@@ -17,7 +17,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: nc-listener-container
-        image: acinwinstack/tcp-nc
+        image: kourse/tcp-nc:v0.1.0
         imagePullPolicy: Always
         command:
         - "/bin/bash"
