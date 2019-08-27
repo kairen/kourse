@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-udpserver
+spec:
+  selector:
+    matchLabels:
+      run: k8s-udpserver
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        run: k8s-udpserver
+    spec:
+      containers:
+      - name: k8s-udpserver
+        imagePullPolicy: IfNotPresent
+        image: hwchiu/pythontest
+        ports:
+        - containerPort: 20001
+          protocol: UDP
+

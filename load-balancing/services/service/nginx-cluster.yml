@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-udpserver-cluster
+  labels:
+    run: k8s-udpserver-cluster
+spec:
+  ports:
+  - port: 20001
+    protocol: UDP
+  selector:
+    run: k8s-udpserver

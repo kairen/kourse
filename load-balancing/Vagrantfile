@@ -23,6 +23,8 @@ Vagrant.configure("2") do |config|
     sudo apt-get update
     sudo apt-get install -y docker-ce=${DOCKER_VERSION}
 
+    echo 3 | sudo tee /proc/sys/net/ipv4/tcp_fastopen
+    git clone https://github.com/hwchiu/kubeDemo
     git clone https://github.com/hwchiu/k8s-course
     sudo apt-get install -y linux-headers-$(uname -r)
     cd ~/k8s-course/load-balancing/module
