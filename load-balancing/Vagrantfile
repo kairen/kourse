@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
     #change the source.list
     sudo apt-get update
-    sudo apt-get install -y vim git cmake build-essential openvswitch-switch tcpdump unzip tig nfs-common
+    sudo apt-get install -y vim git cmake build-essential tcpdump tig jq
     # Install ntp
     sudo apt-get install -y ntp
     # Install Docker

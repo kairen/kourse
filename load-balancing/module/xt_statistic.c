@@ -171,10 +171,11 @@ static enum MATCH_RESULT checkL7LB(struct sk_buff *skb)
     enum MATCH_RESULT ret = FAIL ;
 
     udph = udp_hdr(skb);        /* get UDP header */
-    /* Calculate pointers for begin and end of TCP packet data */
+    /* Calculate pointers for begin and end of UDP packet data */
     user_data = (unsigned char *)((unsigned char *)udph + sizeof(struct udphdr));
 
     //Try to prinout the current IP
+    //We use the first 4 bit for counter, k8s use the 12th-16th bit
     printk(KERN_INFO "current IP is %s", podIP[(skb->mark&(0x000f))]);
 
 

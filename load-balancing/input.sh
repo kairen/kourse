@@ -1,9 +1,10 @@
 #!/bin/bash
-CLUSTER_IP=${1?need cluster IP}
-CONTENT=${2?need desired content}
-TARGET_POD=${3?target PodIP}
-PODIPs=${4?Pod IP list}
 
-echo "${CLUSTER_IP}" > /proc/k8s/clusterIP
-echo "${CONTENT},${TARGET_POD}" > /proc/k8s/http
-echo "${PODIPs}" > /proc/k8s/podIP
+CONTENT=${1?need desired content}
+TARGET_POD=${2?target PodIP}
+CLUSTER_IP=$(kubectl get svc -o json | jq -r '.items[] | select(.metadata.name == "k8s-udpserver-cluster").spec.clusterIP')
+PODIPs=$(kubectl get ep -o json | jq -r '.items[] | select(.metadata.name == "k8s-udpserver-cluster").subsets[].addresses[].ip' | tr '\n' ',')
+
+echo "${CLUSTER_IP}" | sudo tee /proc/k8s/clusterIP
+echo "${CONTENT},${TARGET_POD}" | sudo tee /proc/k8s/http
+echo "${PODIPs}" | sudo tee /proc/k8s/podIP
