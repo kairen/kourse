@@ -168,7 +168,7 @@ static enum MATCH_RESULT checkL7LB(struct sk_buff *skb)
 {
     struct udphdr *udph;        /* UDP header */
     unsigned char *user_data;   /* UDP data begin pointer */
-    enum MATCH_RESULT ret = FAIL ;
+    enum MATCH_RESULT ret = ROLL_BACK;
 
     udph = udp_hdr(skb);        /* get UDP header */
     /* Calculate pointers for begin and end of UDP packet data */
@@ -178,19 +178,21 @@ static enum MATCH_RESULT checkL7LB(struct sk_buff *skb)
     //We use the first 4 bit for counter, k8s use the 12th-16th bit
     printk(KERN_INFO "current IP is %s", podIP[(skb->mark&(0x000f))]);
 
-
     if (strlen(user_data) >= strlen(targetDomain)) {
         if (0 != (strncmp(user_data, targetDomain, strlen(targetDomain))))
-        {
-            ret = ROLL_BACK;
             goto END;
-        }
 
         if (strlen(podIP[(skb->mark&(0x000f))]) != strlen(targetIP))
+	{
+	    ret = FAIL;	
             goto END;
+	}
         //Return true if cuurent IP is target IP
         if (0 != (strncmp(podIP[(skb->mark&(0x000f))], targetIP, strlen(targetIP))))
+       	{
+	    ret = FAIL;	
             goto END;
+	}
 
         printk(KERN_INFO "Find the target !\n");
         ret = SUCCESS;
