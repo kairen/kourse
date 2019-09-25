@@ -18,8 +18,8 @@ data:
       proxy . 8.8.8.8:53
     }
 
-    kairen.k8s.ai {
-      etcd kairen.k8s.ai {
+    k8s.local {
+      etcd k8s.local {
         stubzones
         path /skydns
         endpoint http://coredns-etcd:2379
