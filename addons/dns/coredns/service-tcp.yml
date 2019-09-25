@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     k8s-app: coredns
-  name: coredns
+  name: coredns-tcp
   namespace: ddns
 spec:
   type: LoadBalancer
@@ -16,9 +16,6 @@ spec:
   - name: metrics
     port: 9153
     protocol: TCP
-  - name: dns-udp
-    port: 53
-    protocol: UDP
   selector:
     k8s-app: coredns
   
